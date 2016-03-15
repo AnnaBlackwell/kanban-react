@@ -1,0 +1,19 @@
+{
+  "env": {
+    "build": {
+      "optional": ["optimisation", "minification"]
+    },
+      "presets": [
+        "stage-0",
+        "stage-1",
+        "es2015",
+        "react"
+      ],
+      "plugins": [
+        "transform-runtime",
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        "lodash"
+      ]
+  }
+}
