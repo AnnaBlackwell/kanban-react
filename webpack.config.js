@@ -1,63 +1,60 @@
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var merge = require('webpack-merge')
-var path = require('path');
-var webpack = require('webpack');
+const merge = require('webpack-merge')
+const path = require('path')
+const webpack = require('webpack')
 
-//not sure this line belongs here
-process.env.BABEL_ENV = process.env.npm_lifecycle_event;
 
-var TARGET = process.env.npm_lifecycle_event;
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+const TARGET = process.env.npm_lifecycle_event
+const PATHS = {
+  app: path.resolve(__dirname, 'app'),
+  build: path.resolve(__dirname, 'build')
+}
 
-var common = {
-  entry: APP_PATH,
+const common = {
+  entry: PATHS.app, 
   resolve: {
     extensions: ['', '.js', '.jsx']
-    },
+  },
   output: {
-    path: BUILD_PATH,
+    path:PATHS.build,
     filename: 'bundle.js'
   },
   module: {
     loaders: [
-    {
-    test: /\.css$/,
-    loaders: ['style', 'css'],
-    include: APP_PATH
+    { 
+      test: /\.jsx?$/,
+      exclude: /(node_modules|bower_components)/,
+      loader: 'babel', 
+      query: {
+        presets: ['react', 'es2015', 'survivejs-kanban', 'react-hmre']
+      }
     },
     {
-    test: /\.jsx?$/,
-    loaders: ['babel'],
-    include: APP_PATH,
+      test: /\.css$/,
+      loaders: ['style', 'css']
     }
     ]
-  },
-  plugins: [
-    new HtmlwebpackPlugin({
-    title: 'Kanban app'
-    })
-  ],
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    progress: true
-  },
-};
+  }
+}
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
-  devtool: 'eval-source-map',
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    progress: true
-  },
-  plugins: [
+    devServer: {
+      contentBase: PATHS.build,
+      devtool: 'source-map',
+      historyApiFallback: true,
+      hot: true,
+      inline: true,
+      progress: true,
+      stats: 'errors-only',
+      host: process.env.HOST,
+      port: process.env.PORT
+    },
+    plugins: [
     new webpack.HotModuleReplacementPlugin()
     ]
-  });
+  })
+}
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {});
 }

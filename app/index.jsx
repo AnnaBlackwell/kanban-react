@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 // import './main.css'
 import React from 'react'
@@ -14,10 +13,10 @@ import ReactDom from 'react-dom'
 
 class HelloMessage extends React.Component{
   constructor() {
-
+    super()
   }
   render () {
-    return <div>Hello</div>
+    return <div>Hi Anna, I work :D</div>
   }
 }
 
