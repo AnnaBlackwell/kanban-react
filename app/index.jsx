@@ -1,30 +1,17 @@
-/** @jsx React.DOM */
-
-// import './main.css'
 import React from 'react'
-import ReactDom from 'react-dom'
-// import App from './components/App'
-// import domready from 'domready'
+import ReactDOM from 'react-dom'
 
-// domready(function() {
-//   const appDiv = document.createElement("div");
-//   document.body.appendChild(appDiv);
-//   ReactDom.render(<App />, appDiv)
-// })
-
-class HelloMessage extends React.Component{
+class HelloMessage extends React.Component {
   constructor() {
-
+    super()
   }
-  render () {
-    return <div>Hello</div>
+
+  render() {
+    return (
+      <div> 
+        Hello 
+      </div>
+    )
   }
 }
-
-
-//
-// var HelloMessage = React.createClass({
-//
-// })
-
-ReactDom.render(<HelloMessage/>, document.getElementById("app"))
+ReactDOM.render(<HelloMessage/>, document.getElementById("app"))
