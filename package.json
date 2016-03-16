@@ -30,6 +30,7 @@
   },
   "homepage": "",
   "dependencies": {
+    "alt": "^0.18.2",
     "array.prototype.findindex": "^2.0.0",
     "domready": "^1.0.8",
     "immutable": "^3.7.6",

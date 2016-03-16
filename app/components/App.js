@@ -1,6 +1,8 @@
 import React from 'react'
-import uuid from 'node-uuid';
+import uuid from 'node-uuid'
 import Notes from './Notes'
+import NoteActions from '../actions/NoteActions'
+import NoteStore from '../stores/NoteStore'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -9,23 +11,28 @@ export default class App extends React.Component {
       notes: [
         {
         id: uuid.v4(),
-        task: 'Learn Webpack'
-        },
-        {
-        id: uuid.v4(),
-        task: 'Learn React'
-        },
-        {
-        id: uuid.v4(),
-        task: 'Do laundry'
+        task: ''
         }
       ]
     }
-    this.findNote = this.findNote.bind(this);
-    this.addNote = this.addNote.bind(this);
-    this.editNote = this.editNote.bind(this);
-    this.deleteNote = this.deleteNote.bind(this);
+    this.findNote = this.findNote.bind(this)
+    this.addNote = this.addNote.bind(this)
+    this.editNote = this.editNote.bind(this)
+    this.deleteNote = this.deleteNote.bind(this)
+    this.storeChanged = this.storeChanged.bind(this)
+    this.state = NoteStore.getState()
   }
+
+  componentDidMount() {
+    NoteStore.listen(this.storeChanged)
+  }
+  componentWillUnmount() {
+    NoteStore.unlisten(this.storeChanged)
+  }
+  storeChanged(state) {
+    this.setState(state)
+  }
+
   render() {
     const notes = this.state.notes
     return (
@@ -33,7 +40,7 @@ export default class App extends React.Component {
         <button className="add-note" onClick={this.addNote}>+</button>
         <Notes items={notes} onEdit={this.editNote} onDelete={this.deleteNote}/>
       </div>
-    );
+    )
   }
 
   editNote(id, task) {
@@ -57,22 +64,12 @@ export default class App extends React.Component {
   }
 
   addNote() {
-    this.setState({
-      notes: this.state.notes.concat([{
-        id: uuid.v4(),
-        task: 'New task'
-      }])
-    })
-    console.log('added note')
+    NoteActions.create({task: 'New task'})
+  }
+  editNote(id, task) {
+    NoteActions.update({id, task})
   }
   deleteNote(id) {
-    const notes = this.state.notes
-    const noteIndex = this.findNote(id)
-    if(noteIndex < 0) {
-      return
-    }
-    this.setState({
-      notes: notes.slice(0, noteIndex).concat(notes.slice(noteIndex + 1))
-    })
-  }
+    NoteActions.delete(id)
+  }    
 }
