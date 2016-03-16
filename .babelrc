@@ -6,8 +6,7 @@
     "presets": [
       "react",
       "es2015",
-      "survivejs-kanban",
-      "react-hmre"
+      "survivejs-kanban"
     ],
     "plugins": [
       "transform-runtime",
@@ -16,5 +15,17 @@
       "lodash",
       "espower"
     ]
-  }
+  },
+  "presets": [
+    "react",
+    "es2015",
+    "survivejs-kanban"
+  ],
+  "plugins": [
+    "transform-runtime",
+    "transform-object-rest-spread",
+    "transform-class-properties",
+    "lodash",
+    "espower"
+  ]
 }

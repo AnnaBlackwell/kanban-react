@@ -3,7 +3,6 @@ import React from 'react'
 export default class Note extends React.Component {
   constructor(props) {
     super(props)
-
     this.finishEdit = this.finishEdit.bind(this);
     this.checkEnter = this.checkEnter.bind(this);
     this.edit = this.edit.bind(this);
@@ -14,13 +13,11 @@ export default class Note extends React.Component {
       editing: false
     }
   }
-
   render() {
     const editing = this.state.editing
-
     return (
       <div>
-        {editing ? this.renderEdit() : this.renderTask}
+        {editing ? this.renderEdit() : this.renderTask()}
       </div>
     )
   }
